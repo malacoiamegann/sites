@@ -1,0 +1,196 @@
+/* Estilo geral do corpo da página */
+body {
+    font-family:'Dancing Script';
+    margin: 0;
+    padding: 0;
+    background-color: #825196;
+}
+
+/* Container centralizado */
+.container {
+    width: 80%; /* Largura ajustada */
+    margin: 0 auto; /* Centraliza o conteúdo */
+    padding: 40px 0;
+}
+
+/* Estilo do Header */
+header {
+    background-color: #a940ff;
+    color: rgb(255, 172, 244);
+    text-align: center;
+    padding: 40px 0;
+}
+
+/* Estilo para a contagem regressiva */
+.countdown {
+    background-color: #f2d3ff;
+    padding: 60px 0;
+    text-align: center;
+    margin-bottom: 40px;
+    border-radius: 10px;
+}
+
+.countdown h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-family: 'Dancing Script', cursive; /* Fonte romântica */
+    color: #9670f0; /* Cor combinando com o tema */
+}
+
+.countdown-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.timer {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    font-size: 2em;
+}
+
+.time-box {
+    font-size: 2.5em;
+}
+
+.time-box span {
+    display: block;
+    font-size: 1.2em;
+    color: #cebaf1;
+}
+
+/* Estilo para a seção de presentes */
+.presentes {
+    background-color: #c193fd;
+    padding: 60px 0;
+    margin-bottom: 40px;
+    border-radius: 10px;
+}
+
+.presentes h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+    color: #333;
+}
+
+/* Estilo para a grid de presentes */
+.presentes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Três colunas */
+    gap: 20px;
+}
+
+.presentes-grid .item {
+    text-align: center;
+}
+
+.presentes-grid .item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    max-width: 300px;
+    margin: 0 auto; /* Centraliza a imagem */
+}
+
+.presentes-grid .item:hover img {
+    transform: scale(1.05);
+}
+
+/* Estilo para as seções de formulários */
+section {
+    background-color: #cca8f5;
+    padding: 60px 0;
+    margin-bottom: 40px;
+    border-radius: 10px;
+}
+
+/* Estilo da seção de Contatos */
+.contatos h2, .email h2 {
+    text-align: center;
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+form .form-group {
+    width: 100%;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+form button {
+    padding: 15px 30px;
+    background-color: #9b5cce;
+    color: rgb(112, 1, 240);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+form button:hover {
+    background-color: #c36bf7;
+}
+
+/* Estilo do Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #540396;
+    color: rgb(148, 110, 173);
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Estilo da Newsletter */
+.email p {
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.email form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Estilos para o layout responsivo */
+@media (max-width: 768px) {
+    .presentes-grid {
+        grid-template-columns: repeat(2, 1fr); /* Duas colunas para telas menores */
+    }
+
+    .timer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .time-box {
+        margin-bottom: 15px;
+    }
+}
+
+
+
+
