@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia das Mulheres - Celebração</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset de margin e padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Fonte global */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fce4ec; /* Rosa claro para fundo */
+            color: #ff4e92;
+            line-height: 1.6;
+        }
+
+        /* Cabeçalho */
+        header {
+            background-color: #ff4180; /* Rosa escuro */
+            color: #fff;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #d158ad; /* Rosa claro para o hover */
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Seção Hero */
+        .hero {
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRShKE2fJS7pwxLnSIGxYoO6jCUy0iuQO2qHax0X2SEMpqFazSYehk9vGCOpJ9XyoHciC8&usqp=CAU') no-repeat center center/cover;
+            color: rgb(255, 118, 164);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background-color: hsl(0, 0%, 100%); /* Cor de fundo para melhorar a visibilidade do texto */
+        }
+
+        .hero-content h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .hero-content p {
+            font-size: 1.5em;
+            animation: fadeIn 3s ease-in-out;
+        }
+
+        /* Efeito de fade-in */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Seção Sobre */
+        #about {
+            background-color: #ffffff; /* Rosa claro */
+            padding: 50px 20px;
+        }
+
+        #about h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #e795b1; /* Rosa escuro */
+        }
+
+        #about p {
+            text-align: justify;
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Seção Galeria */
+        #gallery {
+            background-color: #ffffff; /* Rosa suave */
+            padding: 50px 20px;
+        }
+
+        #gallery h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #ff73a2;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-grid img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Seção de GIFs */
+        #gifs {
+            padding: 50px 20px;
+            background-color: #fce4ec;
+            color: #fd93b6;
+        }
+
+        .gif-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .gif-grid img {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .gif-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Seção Contato */
+        #contact {
+            background-color: #f7a5c0;
+            color: #fff;
+            padding: 50px 20px;
+        }
+
+        #contact h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            font-size: 1.2em;
+            background-color: #fff;
+            color: #fa82aa;
+            transition: border 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus {
+            border: 2px solid #ff80ab;
+        }
+
+        button {
+            background-color: #fff;
+            color: #bd607f;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff80ab;
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: #f085a9;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Cabeçalho -->
+    <header>
+        <nav>
+            <div class="logo">Dia das Mulheres</div>
+            <ul>
+                <li><a href="#home">Início</a></li>
+                <li><a href="#about">Sobre</a></li>
+                <li><a href="#gallery">Galeria</a></li>
+                <li><a href="#gifs">GIFs</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Seção Hero -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Feliz Dia das Mulheres!</h1>
+            <p>Celebrando a força, beleza e conquistas das mulheres ao redor do mundo.</p>
+        </div>
+    </section>
+
+    <!-- Seção Sobre -->
+    <section id="about">
+        <div class="container">
+            <h2>O que é o Dia das Mulheres?</h2>
+            <p>O Dia Internacional da Mulher é uma data histórica, marcada por lutas e vitórias que reforçam a importância do papel da mulher na sociedade. Em 8 de março, o mundo inteiro se une para celebrar as conquistas sociais, políticas e econômicas das mulheres. Contudo, é também uma data de reflexão, pois ainda há muito a ser feito pela equidade de gênero. A igualdade de direitos continua sendo uma batalha constante e, embora já tenhamos conquistado muitos avanços, há áreas em que as mulheres ainda são desvalorizadas, discriminadas ou silenciadas.</p>
+            <p>A celebração não se resume apenas a flores e presentes. Ela deve ser uma oportunidade para promover a igualdade, fortalecer a voz das mulheres e lutar para garantir que todos os indivíduos tenham o mesmo direito à dignidade e respeito, independentemente de seu sexo. No Dia das Mulheres, buscamos reafirmar que a luta pela igualdade de gênero é para todos, pois só assim conseguiremos construir uma sociedade verdadeiramente justa e igualitária. O empoderamento feminino é, sem dúvida, uma das maiores conquistas de nosso tempo.</p>
+        </div>
+    </section>
+
+    <!-- Seção Galeria -->
+    <section id="gallery">
+        <div class="container">
+            <h2>Galeria de Imagens</h2>
+            <div class="gallery-grid">
+                <img src="https://camarapedrogomes.ms.gov.br/wp-content/uploads/2023/03/mulher.jpeg" alt="Imagem 1">
+                <img src="https://faelce.com.br/wp-content/uploads/2021/03/Dia-Internacional-da-Mulher-2021.png" alt="Imagem 2">
+                <img src="https://marketplace.canva.com/EAF9_gpdgak/2/0/1280w/canva-dia-internacional-das-mulheres-florido-moderno-rosa-claro-post-do-instagram-wLLLfOgBVOk.jpg" alt="Imagem 3">
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção GIFs -->
+    <section id="gifs">
+        <div class="container">
+            <h2>GIFs para Celebrar</h2>
+            <div class="gif-grid">
+                <img src="https://gifmania.com.br/wp-content/uploads/2020/01/CORA%C3%87%C3%83O_BATENDO.gif" alt="GIF 1">
+                <img src="https://gifmania.com.br/wp-content/uploads/2025/03/dia_internacional_da_mulher.gif" alt="GIF 2">
+                <img src="https://media2.giphy.com/media/7udrzgaahfmw4zTFX4/200w.gif?cid=6c09b952ca6607qj809jv3vpricpx8uzogezc6h2oy39sn5m&ep=v1_gifs_search&rid=200w.gif&ct=g" alt="GIF 3">
+                <img src="https://usagif.com/wp-content/uploads/2021/4fh5wi/march8-38.gif" alt="GIF 4">
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Contato -->
+    <section id="contact">
+        <div class="container">
+            <h2>Entre em Contato</h2>
+            <p>Compartilhe sua opinião ou ideia sobre o Dia das Mulheres. Juntos, podemos inspirar mais pessoas a lutar por um mundo mais justo e igualitário.</p>
+            <form action="#" method="POST">
+                <input type="text" name="name" placeholder="Seu nome" required>
+                <input type="email" name="email" placeholder="Seu email" required>
+                <textarea name="message" placeholder="Sua mensagem" rows="4" required></textarea>
+                <button type="submit">Enviar Mensagem</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2025 Dia das Mulheres. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
