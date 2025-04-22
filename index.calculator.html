@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>CAVS CALCULATOR</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding-left: 100px; /* Ajuste o padding para centralizar mais */
+      position: relative;
+      background-image: url('https://images3.alphacoders.com/914/thumb-1920-914671.png'); /* Fundo com quadra de basquete */
+      background-size: cover;
+      background-position: center;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    h1 {
+      position: absolute;
+      top: 20px;
+      right: 50px;
+      color: #F1C40F; /* Amarelo dourado */
+      text-shadow: 0 0 10px #F1C40F, 0 0 20px #F1C40F;
+      margin: 0;
+    }
+
+    .calculator {
+      background-color: rgba(106, 30, 26, 0.85); /* Escurecer o container com a cor do uniforme */
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(192, 57, 43, 0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-left: 10%; /* Ajusta a posição para mais centralizado */
+    }
+
+    #display {
+      width: 100%;
+      height: 60px;
+      margin-bottom: 15px;
+      text-align: right;
+      font-size: 28px;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: rgba(106, 30, 26, 0.6); /* Vermelho translúcido */
+      color: #FFF;
+      box-shadow: 0 0 10px #C0392B inset;
+      transition: box-shadow 0.4s ease, background-color 0.4s ease;
+    }
+
+    .glow-effect {
+      box-shadow: 0 0 20px #fff, 0 0 30px #fff inset !important;
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 70px);
+      gap: 12px;
+      justify-items: center; /* Alinhar os botões ao centro */
+      width: 100%;
+    }
+
+    button {
+      padding: 20px;
+      font-size: 22px;
+      border: none;
+      border-radius: 10px;
+      background-color: #F1C40F; /* Dourado */
+      color: #6A1E1A; /* Vermelho escuro */
+      box-shadow: 0 0 10px #E74C3C, 0 0 15px #E74C3C;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #FFF, 0 0 25px #FFF;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .basketball {
+      position: absolute;
+      right: 50px;
+      bottom: 50px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle at 30% 30%, #FFA500, #FF8C00);
+      border-radius: 50%;
+      box-shadow: 0 0 0 #FF8C00;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .basketball::before, .basketball::after {
+      content: '';
+      position: absolute;
+      background-color: #000;
+      border-radius: 50%;
+    }
+
+    .basketball::before {
+      width: 100%;
+      height: 5px;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+
+    .basketball::after {
+      width: 5px;
+      height: 100%;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .spin {
+      animation: spin 1s linear;
+      box-shadow: 0 0 20px #FF8C00, 0 0 40px #FF8C00;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    #preview {
+      width: 100%;
+      height: 40px;
+      text-align: right;
+      font-size: 22px;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.3); /* Leve fundo branco/translúcido */
+      color: #FFF;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(192, 57, 43, 0.6);
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <h1>CAVS CALCULATOR</h1>
+
+  <div class="calculator">
+    <input type="text" id="display" disabled>
+    <div id="preview"></div> <!-- Área para pré-visualização -->
+    <div class="buttons">
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="deleteLast()">⌫</button>
+      <button onclick="appendToDisplay('/')">/</button>
+      <button onclick="appendToDisplay('*')">*</button>
+
+      <button onclick="appendToDisplay('7')">7</button>
+      <button onclick="appendToDisplay('8')">8</button>
+      <button onclick="appendToDisplay('9')">9</button>
+      <button onclick="appendToDisplay('-')">-</button>
+
+      <button onclick="appendToDisplay('4')">4</button>
+      <button onclick="appendToDisplay('5')">5</button>
+      <button onclick="appendToDisplay('6')">6</button>
+      <button onclick="appendToDisplay('+')">+</button>
+
+      <button onclick="appendToDisplay('1')">1</button>
+      <button onclick="appendToDisplay('2')">2</button>
+      <button onclick="appendToDisplay('3')">3</button>
+      <button onclick="calculate()">=</button>
+
+      <button onclick="appendToDisplay('0')">0</button>
+      <button onclick="appendToDisplay('.')">.</button>
+    </div>
+  </div>
+
+  <div class="basketball" id="ball"></div>
+
+  <script>
+    const display = document.getElementById("display");
+    const preview = document.getElementById("preview");
+    const ball = document.getElementById("ball");
+
+    function appendToDisplay(value) {
+      display.value += value;
+      previewCalculation();
+    }
+
+    function clearDisplay() {
+      display.value = "";
+      preview.innerHTML = "";
+    }
+
+    function deleteLast() {
+      display.value = display.value.slice(0, -1);
+      previewCalculation();
+    }
+
+    function calculate() {
+      if (display.value === "") {
+        return;  // Evita cálculos em branco
+      }
+
+      try {
+        display.value = eval(display.value);
+        preview.innerHTML = "";  // Limpar pré-visualização após cálculo
+        display.classList.add("glow-effect");
+        ball.classList.add("spin");
+
+        setTimeout(() => {
+          display.classList.remove("glow-effect");
+          ball.classList.remove("spin");
+        }, 1000);
+      } catch (e) {
+        preview.innerHTML = "Erro";
+        display.classList.add("glow-effect");
+        ball.classList.add("spin");
+        setTimeout(() => {
+          display.classList.remove("glow-effect");
+          ball.classList.remove("spin");
+        }, 1000);
+      }
+    }
+
+    // Função para mostrar pré-visualização da operação
+    function previewCalculation() {
+      try {
+        let previewValue = eval(display.value);
+        preview.innerHTML = previewValue; // Atualiza a pré-visualização
+      } catch (e) {
+        preview.innerHTML = "";  // Evita erro quando o cálculo não está completo
+      }
+    }
+  </script>
+</body>
+</html>
