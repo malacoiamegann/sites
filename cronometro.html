@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cronômetro - Memphis Grizzlies</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #12173F; /* Azul escuro Memphis */
+      color: #FDBB30; /* Amarelo Memphis */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+    }
+
+    #display {
+      font-size: 3rem;
+      background-color: #5D76A9; /* Azul acinzentado */
+      padding: 20px 40px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .botoes {
+      display: flex;
+      gap: 15px;
+    }
+
+    button {
+      background-color: #FDBB30;
+      color: #12173F;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #ffcc4d;
+    }
+  </style>
+</head>
+<body>
+  <h1>⏱️ Cronômetro - Memphis Grizzlies</h1>
+  <div id="display">00:00:00</div>
+  <div class="botoes">
+    <button onclick="iniciar()">Iniciar</button>
+    <button onclick="pausar()">Pausar</button>
+    <button onclick="zerar()">Zerar</button>
+  </div>
+
+  <script>
+    let segundos = 0;
+    let intervalo = null;
+
+    function formatarTempo(segundos) {
+      const h = String(Math.floor(segundos / 3600)).padStart(2, '0');
+      const m = String(Math.floor((segundos % 3600) / 60)).padStart(2, '0');
+      const s = String(segundos % 60).padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+
+    function atualizarDisplay() {
+      document.getElementById('display').textContent = formatarTempo(segundos);
+    }
+
+    function iniciar() {
+      if (!intervalo) {
+        intervalo = setInterval(() => {
+          segundos++;
+          atualizarDisplay();
+        }, 1000);
+      }
+    }
+
+    function pausar() {
+      clearInterval(intervalo);
+      intervalo = null;
+    }
+
+    function zerar() {
+      pausar();
+      segundos = 0;
+      atualizarDisplay();
+    }
+
+    atualizarDisplay(); // Exibe 00:00:00 ao carregar
+  </script>
+</body>
+</html>

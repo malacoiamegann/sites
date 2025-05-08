@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jogo da Forca - Celtics</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #007A33;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    #palavra {
+      font-size: 2rem;
+      letter-spacing: 10px;
+      margin-bottom: 20px;
+    }
+
+    #teclado button {
+      padding: 10px;
+      margin: 5px;
+      font-size: 18px;
+      background-color: white;
+      color: #007A33;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #teclado button:hover {
+      background-color: #004C1A;
+      color: white;
+    }
+
+    #teclado button:disabled {
+      background-color: #ccc;
+      color: #444;
+      cursor: not-allowed;
+    }
+
+    #mensagem, #erros {
+      margin-top: 20px;
+      font-size: 1.2rem;
+    }
+
+    .reset-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #FFB81C;
+      color: #003B1F;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .reset-btn:hover {
+      background-color: #003B1F;
+      color: #FFB81C;
+    }
+  </style>
+</head>
+<body>
+  <h1>Jogo da Forca - Celtics</h1>
+  <div id="palavra">_ _ _ _</div>
+  <div id="teclado"></div>
+  <div id="erros"></div>
+  <div id="mensagem"></div>
+  <button class="reset-btn" id="resetBtn" onclick="iniciarJogo()">Jogar Novamente</button>
+
+  <script>
+    const palavras = ["CELTICS", "BASQUETE", "CAMISA", "TATUM", "NBA"];
+    let palavraSorteada = "";
+    let letrasCertas = [];
+    let letrasErradas = [];
+    let tentativasRestantes = 6;
+
+    const palavraEl = document.getElementById("palavra");
+    const tecladoEl = document.getElementById("teclado");
+    const mensagemEl = document.getElementById("mensagem");
+    const resetBtn = document.getElementById("resetBtn");
+    const errosEl = document.getElementById("erros");
+
+    function criarTeclado() {
+      tecladoEl.innerHTML = "";
+      for (let i = 65; i <= 90; i++) {
+        const letra = String.fromCharCode(i);
+        const btn = document.createElement("button");
+        btn.textContent = letra;
+        btn.onclick = () => verificarLetra(letra, btn);
+        tecladoEl.appendChild(btn);
+      }
+    }
+
+    function exibirPalavra() {
+      const exibida = palavraSorteada
+        .split("")
+        .map((letra) => (letrasCertas.includes(letra) ? letra : "_"))
+        .join(" ");
+      palavraEl.textContent = exibida;
+    }
+
+    function verificarLetra(letra, botao) {
+      botao.disabled = true;
+
+      if (palavraSorteada.includes(letra)) {
+        letrasCertas.push(letra);
+      } else {
+        letrasErradas.push(letra);
+        tentativasRestantes--;
+      }
+
+      exibirPalavra();
+      atualizarStatus();
+      checarFimDeJogo();
+    }
+
+    function atualizarStatus() {
+      errosEl.innerHTML = `❌ Letras erradas: ${letrasErradas.join(", ")}<br>🔁 Tentativas restantes: ${tentativasRestantes}`;
+    }
+
+    function checarFimDeJogo() {
+      if (!palavraEl.textContent.includes("_")) {
+        mensagemEl.textContent = "🎉 Você venceu!";
+        desativarTeclado();
+      } else if (tentativasRestantes <= 0) {
+        mensagemEl.textContent = `❌ Você perdeu! A palavra era: ${palavraSorteada}`;
+        desativarTeclado();
+      }
+    }
+
+    function desativarTeclado() {
+      const botoes = tecladoEl.querySelectorAll("button");
+      botoes.forEach((btn) => (btn.disabled = true));
+    }
+
+    function iniciarJogo() {
+      palavraSorteada = palavras[Math.floor(Math.random() * palavras.length)];
+      letrasCertas = [];
+      letrasErradas = [];
+      tentativasRestantes = 6;
+      mensagemEl.textContent = "";
+      errosEl.textContent = "";
+      criarTeclado();
+      exibirPalavra();
+      atualizarStatus();
+    }
+
+    iniciarJogo();
+  </script>
+</body>
+</html>

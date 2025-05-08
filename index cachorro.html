@@ -1,0 +1,137 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS2DRenderer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+  const scene = new THREE.Scene();
+
+  // Fundo com textura de galáxia
+  new THREE.TextureLoader().load('img/galaxy.jpg', function(texture) {
+    scene.background = texture;
+  });
+
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+  camera.position.set(0, 30, 90);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  const labelRenderer = new THREE.CSS2DRenderer();
+  labelRenderer.setSize(window.innerWidth, window.innerHeight);
+  labelRenderer.domElement.style.position = 'absolute';
+  labelRenderer.domElement.style.top = '0px';
+  document.body.appendChild(labelRenderer.domElement);
+
+  // Orbit Controls
+  const controls = new THREE.OrbitControls(camera, labelRenderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+
+  // Luz solar e ambiente
+  const sunlight = new THREE.PointLight(0xffffff, 2, 0);
+  sunlight.position.set(0, 0, 0);
+  scene.add(sunlight);
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  directionalLight.position.set(50, 50, 50);
+  scene.add(directionalLight);
+
+  // Sol
+  const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
+  const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+  const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+  scene.add(sun);
+
+  // Estrelas
+  const starsGeometry = new THREE.BufferGeometry();
+  const starCount = 2000;
+  const starPositions = new Float32Array(starCount * 3);
+  for (let i = 0; i < starCount * 3; i++) {
+    starPositions[i] = (Math.random() - 0.5) * 2000;
+  }
+  starsGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+  const starsMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.7 });
+  const stars = new THREE.Points(starsGeometry, starsMaterial);
+  scene.add(stars);
+
+  // Planetas
+  const loader = new THREE.TextureLoader();
+  const planetsData = [
+    { name: "Mercúrio", size: 0.5, dist: 10, speed: 0.04, texture: "img/mercurio.jpg" },
+    { name: "Vênus", size: 0.9, dist: 14, speed: 0.015, texture: "img/venus.jpg" },
+    { name: "Terra", size: 1, dist: 18, speed: 0.01, texture: "img/earth.jpg" },
+    { name: "Marte", size: 0.7, dist: 22, speed: 0.008, texture: "img/mars.jpg" },
+    { name: "Júpiter", size: 2.5, dist: 28, speed: 0.005, texture: "img/jupiter.jpg" },
+    { name: "Saturno", size: 2.2, dist: 35, speed: 0.004, texture: "img/saturn.jpg" },
+    { name: "Urano", size: 1.5, dist: 42, speed: 0.003, texture: "img/uranus.jpg" },
+    { name: "Netuno", size: 1.5, dist: 48, speed: 0.002, texture: "img/neptune.jpg" }
+  ];
+
+  const planetObjects = [];
+
+  planetsData.forEach(data => {
+    const orbit = new THREE.Object3D();
+    scene.add(orbit);
+
+    const texture = loader.load(data.texture);
+    const geometry = new THREE.SphereGeometry(data.size, 32, 32);
+    const material = new THREE.MeshStandardMaterial({ map: texture });
+    const planet = new THREE.Mesh(geometry, material);
+    planet.position.x = data.dist;
+    orbit.add(planet);
+
+    const div = document.createElement('div');
+    div.className = 'label';
+    div.textContent = data.name;
+    const label = new THREE.CSS2DObject(div);
+    label.position.set(0, data.size + 0.5, 0);
+    planet.add(label);
+
+    planetObjects.push({ planet, orbit, speed: data.speed, dist: data.dist });
+  });
+
+  // Orbitas visuais
+  planetsData.forEach(data => {
+    const orbitCurve = new THREE.EllipseCurve(0, 0, data.dist, data.dist, 0, 2 * Math.PI, false, 0);
+    const points = orbitCurve.getPoints(64).map(p => new THREE.Vector3(p.x, 0, p.y));
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.LineBasicMaterial({ color: 0x444444 });
+    const orbitLine = new THREE.LineLoop(geometry, material);
+    scene.add(orbitLine);
+  });
+
+  // Animação
+  let angle = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    angle += 0.01;
+
+    planetObjects.forEach(obj => {
+      const x = Math.cos(angle * obj.speed) * obj.dist;
+      const z = Math.sin(angle * obj.speed) * obj.dist;
+      obj.planet.position.set(x, 0, z);
+      obj.planet.rotation.y += 0.01;
+    });
+
+    stars.rotation.y += 0.0005;
+
+    controls.update(); // atualiza os controles
+
+    renderer.render(scene, camera);
+    labelRenderer.render(scene, camera);
+  }
+
+  animate();
+
+  // Responsivo
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    labelRenderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>

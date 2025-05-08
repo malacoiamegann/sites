@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas - Warriors</title>
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilo do menu */
+        .menu {
+            background-color: #006BB6; /* Azul do Warriors */
+            text-align: center;
+            padding: 15px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .menu ul li {
+            display: inline;
+            margin-right: 30px;
+        }
+
+        .menu ul li a {
+            color: #FDB927; /* Dourado do Warriors */
+            text-decoration: none;
+            font-size: 20px;
+            padding: 12px 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .menu ul li a:hover {
+            background-color: #FDB927;
+            color: #006BB6;
+            transform: scale(1.1);
+        }
+
+        /* Estilo da lista de tarefas */
+        .conteudo {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #F1F1F1;
+            min-height: 80vh;
+        }
+
+        h1 {
+            color: #006BB6;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .lista-tarefas {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .lista-tarefas ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .lista-tarefas ul li {
+            background-color: #F9F9F9;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lista-tarefas ul li button {
+            background-color: #006BB6; /* Azul do Warriors */
+            color: #FDB927; /* Dourado do Warriors */
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .lista-tarefas ul li button:hover {
+            background-color: #FDB927;
+            color: #006BB6;
+        }
+
+        .lista-tarefas ul li button:active {
+            transform: scale(0.98);
+        }
+
+        /* Estilo do formulário de nova tarefa */
+        .nova-tarefa {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .nova-tarefa input {
+            width: 75%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .nova-tarefa button {
+            background-color: #FDB927;
+            color: #006BB6;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nova-tarefa button:hover {
+            background-color: #006BB6;
+            color: #FDB927;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu de navegação -->
+    <nav class="menu">
+        <ul>
+           
+    </nav>
+
+    <!-- Conteúdo da página -->
+    <div class="conteudo">
+        <h1>Lista de Tarefas</h1>
+        
+        <!-- Formulário para adicionar nova tarefa -->
+        <div class="nova-tarefa">
+            <input type="text" id="novaTarefa" placeholder="Digite sua nova tarefa...">
+            <button onclick="adicionarTarefa()">Adicionar Tarefa</button>
+        </div>
+
+        <!-- Lista de Tarefas -->
+        <div class="lista-tarefas">
+            <ul id="tarefasLista">
+                <!-- Tarefas serão adicionadas aqui -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Função para adicionar uma nova tarefa à lista
+        function adicionarTarefa() {
+            const tarefaTexto = document.getElementById('novaTarefa').value;
+            if (tarefaTexto.trim() === '') {
+                alert('Por favor, digite uma tarefa!');
+                return;
+            }
+
+            const tarefasLista = document.getElementById('tarefasLista');
+            const novaTarefa = document.createElement('li');
+            novaTarefa.innerHTML = `
+                <span>${tarefaTexto}</span>
+                <button onclick="marcarConcluida(this)">Concluir</button>
+            `;
+            tarefasLista.appendChild(novaTarefa);
+            document.getElementById('novaTarefa').value = ''; // Limpa o campo de entrada
+        }
+
+        // Função para marcar a tarefa como concluída
+        function marcarConcluida(button) {
+            const tarefa = button.parentElement;
+            tarefa.style.backgroundColor = '#D4EDDA'; // Cor verde claro para tarefa concluída
+            tarefa.querySelector('span').style.textDecoration = 'line-through'; // Risca a tarefa
+            button.textContent = 'Concluída';
+            button.disabled = true; // Desabilita o botão após marcar como concluída
+            button.style.backgroundColor = '#28A745'; // Cor verde para botão de concluído
+        }
+    </script>
+</body>
+</html>

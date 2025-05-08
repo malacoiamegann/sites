@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contador de Palavras - Rockets</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #CE1141; /* Vermelho Rockets */
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 90%;
+      max-width: 600px;
+      height: 200px;
+      padding: 15px;
+      font-size: 16px;
+      border: 2px solid white;
+      border-radius: 8px;
+      resize: vertical;
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    .contador {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      background-color: white;
+      color: #CE1141;
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>🚀 Contador de Palavras - Rockets</h1>
+  <textarea id="texto" placeholder="Digite seu texto aqui..."></textarea>
+  <div class="contador" id="resultado">Palavras: 0 | Caracteres: 0</div>
+
+  <script>
+    const textarea = document.getElementById("texto");
+    const resultado = document.getElementById("resultado");
+
+    textarea.addEventListener("input", () => {
+      const texto = textarea.value.trim();
+      const palavras = texto === "" ? 0 : texto.split(/\s+/).length;
+      const caracteres = texto.length;
+      resultado.textContent = `Palavras: ${palavras} | Caracteres: ${caracteres}`;
+    });
+  </script>
+</body>
+</html>
