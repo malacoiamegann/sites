@@ -1,0 +1,129 @@
+<!-- conversor.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor de Moedas</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .conversor {
+      max-width: 400px;
+      margin: 20px auto;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00eaff;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #00eaff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .resultado {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+    .voltar {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #00eaff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>💱 Conversor de Moedas</h1>
+  <div class="conversor">
+    <input type="number" id="valor" placeholder="Digite o valor">
+    <select id="de">
+      <option value="BRL">Real (BRL)</option>
+      <option value="USD">Dólar (USD)</option>
+      <option value="EUR">Euro (EUR)</option>
+      <option value="JPY">Iene (JPY)</option>
+      <option value="KRW">Won (KRW)</option>
+      <option value="GBP">Libra (GBP)</option>
+      <option value="ARS">Peso Argentino (ARS)</option>
+      <option value="CAD">Dólar Canadense (CAD)</option>
+      <option value="AUD">Dólar Australiano (AUD)</option>
+      <option value="CNY">Yuan (CNY)</option>
+      <option value="CHF">Franco Suíço (CHF)</option>
+      <option value="SEK">Coroa Sueca (SEK)</option>
+      <option value="NOK">Coroa Norueguesa (NOK)</option>
+      <option value="RUB">Rublo (RUB)</option>
+      <option value="INR">Rúpia Indiana (INR)</option>
+      <option value="MXN">Peso Mexicano (MXN)</option>
+      <option value="ZAR">Rand Sul-Africano (ZAR)</option>
+      <option value="TRY">Lira Turca (TRY)</option>
+      <option value="NZD">Dólar Neozelandês (NZD)</option>
+      <option value="AED">Dirham (AED)</option>
+    </select>
+    <select id="para">
+      <!-- opções copiadas -->
+    </select>
+    <button onclick="converter()">Converter</button>
+    <div class="resultado" id="resultado"></div>
+  </div>
+  <button class="voltar" onclick="window.location.href='index.html'">⬅ Voltar</button>
+
+  <script>
+    const taxas = {
+      BRL: 1,
+      USD: 5,
+      EUR: 5.5,
+      JPY: 0.035,
+      KRW: 0.0037,
+      GBP: 6.2,
+      ARS: 0.025,
+      CAD: 3.7,
+      AUD: 3.4,
+      CNY: 0.7,
+      CHF: 5.8,
+      SEK: 0.48,
+      NOK: 0.46,
+      RUB: 0.06,
+      INR: 0.06,
+      MXN: 0.3,
+      ZAR: 0.26,
+      TRY: 0.16,
+      NZD: 3.2,
+      AED: 1.4
+    };
+
+    const selectPara = document.getElementById('para');
+    const selectDe = document.getElementById('de');
+    selectPara.innerHTML = selectDe.innerHTML;
+
+    function converter() {
+      const valor = parseFloat(document.getElementById('valor').value);
+      const de = document.getElementById('de').value;
+      const para = document.getElementById('para').value;
+
+      if (!valor || de === para) {
+        document.getElementById('resultado').innerText = 'Valor inválido ou moedas iguais';
+        return;
+      }
+
+      const valorConvertido = (valor * taxas[para]) / taxas[de];
+      document.getElementById('resultado').innerText = `${valor} ${de} = ${valorConvertido.toFixed(2)} ${para}`;
+    }
+  </script>
+</body>
+</html>
