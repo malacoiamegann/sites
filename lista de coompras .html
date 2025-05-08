@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lista de Compras - Cavaliers</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f3f3f3;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #6F263D; /* Vinho - Cavaliers */
+      color: #FDBB30;
+      text-align: center;
+      padding: 20px 0;
+      font-size: 2rem;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 30px auto;
+      background-color: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      background-color: #FDBB30;
+      color: #6F263D;
+      border: none;
+      padding: 10px 16px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #6F263D;
+      color: #FDBB30;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 20px;
+      padding-left: 0;
+    }
+
+    li {
+      background-color: #f8f8f8;
+      margin: 8px 0;
+      padding: 10px 15px;
+      border-left: 5px solid #6F263D;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 4px;
+    }
+
+    .remover {
+      background-color: #6F263D;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .remover:hover {
+      background-color: #912c4c;
+    }
+  </style>
+</head>
+<body>
+  <header>🛒 Lista de Compras - Cavaliers</header>
+
+  <div class="container">
+    <input type="text" id="item" placeholder="Digite um item..." />
+    <button onclick="adicionarItem()">Adicionar</button>
+
+    <ul id="lista">
+      <!-- Itens adicionados aparecerão aqui -->
+    </ul>
+  </div>
+
+  <script>
+    function adicionarItem() {
+      const itemInput = document.getElementById("item");
+      const itemTexto = itemInput.value.trim();
+
+      if (itemTexto !== "") {
+        const li = document.createElement("li");
+        li.innerHTML = `${itemTexto} <button class="remover" onclick="removerItem(this)">Remover</button>`;
+        document.getElementById("lista").appendChild(li);
+        itemInput.value = "";
+      } else {
+        alert("Digite o nome de um item.");
+      }
+    }
+
+    function removerItem(botao) {
+      botao.parentElement.remove();
+    }
+  </script>
+</body>
+</html>
