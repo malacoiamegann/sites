@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Batalha Naval 🚢</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      animation: slideDown 1s ease-out;
+    }
+
+    .boards {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+      animation: fadeIn 1.5s ease-in;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(10, 35px);
+      gap: 2px;
+      background: #000;
+      padding: 5px;
+      border: 3px solid #fff;
+      box-shadow: 0 0 15px #00f;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .grid:hover {
+      transform: scale(1.02);
+    }
+
+    .grid div {
+      width: 35px;
+      height: 35px;
+      background-color: #1e90ff;
+      border: 1px solid #000;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    .grid div:hover {
+      transform: scale(1.1);
+    }
+
+    .grid div.ship {
+      background-color: #006400;
+    }
+
+    .grid div.hit {
+      background-color: #ff0000;
+      animation: explode 0.5s, glow 0.8s infinite alternate;
+      box-shadow: 0 0 10px 5px #ff0;
+    }
+
+    .grid div.miss {
+      background-color: #a9a9a9;
+    }
+
+    @keyframes explode {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 10px 2px yellow; }
+      100% { box-shadow: 0 0 20px 5px orange; }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Batalha Naval 🚢💥</h1>
+  <div class="boards">
+    <div>
+      <h2>Seu Tabuleiro 🌊</h2>
+      <div id="player-board" class="grid"></div>
+    </div>
+    <div>
+      <h2>Tabuleiro do Bot 🤖</h2>
+      <div id="bot-board" class="grid"></div>
+    </div>
+  </div>
+
+  <script>
+    const playerBoard = document.getElementById('player-board');
+    const botBoard = document.getElementById('bot-board');
+
+    const createGrid = (board, clickHandler, markShips = false, ships = new Set()) => {
+      for (let i = 0; i < 100; i++) {
+        const cell = document.createElement('div');
+        cell.dataset.index = i;
+        if (markShips && ships.has(i)) {
+          cell.classList.add('ship');
+          cell.textContent = '🚢';
+        }
+        if (clickHandler) {
+          cell.addEventListener('click', () => clickHandler(cell));
+        }
+        board.appendChild(cell);
+      }
+    };
+
+    const generateShips = () => {
+      const positions = new Set();
+      while (positions.size < 10) {
+        positions.add(Math.floor(Math.random() * 100));
+      }
+      return positions;
+    };
+
+    const playerShips = generateShips();
+    const botShips = generateShips();
+
+    const handleBotClick = (cell) => {
+      const index = parseInt(cell.dataset.index);
+      if (cell.classList.contains('hit') || cell.classList.contains('miss')) return;
+
+      if (botShips.has(index)) {
+        cell.classList.add('hit');
+        cell.textContent = '💥';
+        botShips.delete(index);
+        if (botShips.size === 0) {
+          setTimeout(() => alert('Você venceu! 🏆'), 100);
+        }
+      } else {
+        cell.classList.add('miss');
+        cell.textContent = '🌊';
+        botMove();
+      }
+    };
+
+    const botMove = () => {
+      const cells = playerBoard.querySelectorAll('div');
+      let index;
+      do {
+        index = Math.floor(Math.random() * 100);
+      } while (
+        cells[index].classList.contains('hit') ||
+        cells[index].classList.contains('miss')
+      );
+
+      if (playerShips.has(index)) {
+        cells[index].classList.add('hit');
+        cells[index].textContent = '💥';
+        playerShips.delete(index);
+        if (playerShips.size === 0) {
+          setTimeout(() => alert('Você perdeu! 💀'), 100);
+        }
+      } else {
+        cells[index].classList.add('miss');
+        cells[index].textContent = '🌊';
+      }
+    };
+
+    createGrid(playerBoard, null, true, playerShips);
+    createGrid(botBoard, handleBotClick);
+  </script>
+</body>
+</html>
