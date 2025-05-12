@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo do Mico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Luckiest+Guy&display=swap" rel="stylesheet"> <!-- Fonte divertida -->
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f9f9f9;
+            background-image: url('https://img.freepik.com/fotos-gratis/paisagem-da-selva-em-estilo-pixel-art_23-2151557065.jpg?semt=ais_hybrid'); /* Adicione aqui o caminho da sua imagem */
+            background-size: cover; /* Faz a imagem cobrir toda a tela */
+            background-position: center; /* Centraliza a imagem */
+            background-repeat: no-repeat; /* Evita que a imagem se repita */
+        }
+        h1 { 
+            margin-top: 20px; 
+            color: #0cff14; 
+            font-family: 'Courier New', monospace; 
+            text-align: center; 
+        }
+        #game-board { 
+            display: grid; 
+            grid-template-columns: repeat(8, 60px); 
+            gap: 15px; 
+            justify-content: center; 
+            margin: 20px auto; 
+        }
+        .card { 
+            width: 60px; 
+            height: 60px; 
+            background: rgba(30, 255, 30, 0.76); /* Cor de fundo das cartas */
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 2em; 
+            cursor: pointer; 
+            border-radius: 10px; 
+            transition: transform 0.2s, background-color 0.3s; 
+        }
+        .flipped { 
+            background: #8cff08; /* Cor quando a carta é virada */
+            color: white;
+        }
+        .matched { 
+            background: #b4ffb6; /* Cor quando a carta é correspondente */
+        }
+        .incorrect { 
+            background: #F44336; /* Cor quando há um erro */
+        }
+        .score-container, .timer-container { 
+            background: transparent; /* Fundo transparente */
+            border: 3px solid #abfdae; 
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1); 
+            border-radius: 10px; 
+            padding: 15px 25px; 
+            margin: 10px auto; 
+            display: inline-block; 
+            text-align: center; 
+        }
+        .score-title, .timer-title { 
+            font-size: 1.2em; 
+            color: #ffffff; /* Texto branco */
+            font-weight: bold; 
+            margin-bottom: 5px; 
+        }
+        .score-number, .timer-number { 
+            font-size: 2em; 
+            color: #ffffff; /* Texto branco */
+        }
+        #containers { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            margin-top: 20px; 
+        }
+        button { 
+            padding: 10px 20px; 
+            font-size: 1.2em; 
+            color: white; 
+            background-color: #FF4081; /* Cor do botão */
+            border: none; 
+            border-radius: 5px; 
+            font-family: 'Courier New', monospace; 
+            cursor: pointer; 
+            margin-top: 20px; 
+        }
+        button:hover { 
+            background-color: #F50057; /* Cor do botão quando estiver em hover */
+        }
+        #message { 
+            margin-top: 20px; 
+            font-size: 3em; /* Aumenta o tamanho da fonte */
+            color: #00ff08; /* Cor da mensagem */
+            text-align: center; 
+            font-weight: bold; /* Deixa o texto em negrito */
+            font-family: 'Luckiest Guy', cursive; /* Fonte divertida */
+            text-shadow: 0 0 10px #b3ffb6, 0 0 20px #00ff08, 0 0 30px #4CAF50; /* Efeito de brilho */
+        }
+        @keyframes fadeIn { 
+            from { opacity: 0; } 
+            to { opacity: 1; } 
+        }
+        .win-animation, .lose-animation { 
+            animation: fadeIn 2s ease-in; 
+        }
+        .win-animation {
+            color: #4CAF50; /* Verde destacado para vitória */
+            text-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50, 0 0 30px #4CAF50; /* Efeito de brilho na vitória */
+        }
+        .lose-animation {
+            color: #FF4081; /* Cor para "Você perdeu" (vermelho para contraste) */
+            text-shadow: 0 0 10px #FF4081, 0 0 20px #FF4081, 0 0 30px #FF4081; /* Efeito de brilho na derrota */
+        }
+    </style>
+</head>
+<body>
+    <h1>Jogo do Mico</h1>
+    <div id="game-board"></div>
+    <div id="containers">
+        <div class="score-container">
+            <p class="score-title">Tentativas:</p>
+            <p class="score-number" id="score">0</p>
+        </div>
+        <div class="timer-container">
+            <p class="timer-title">Tempo restante:</p>
+            <p class="timer-number" id="timer">120s</p> <!-- Ajustado para 120s -->
+        </div>
+    </div>
+    <button onclick="startGame()">Reiniciar Jogo</button>
+    <button id="startPauseButton" onclick="toggleTimer()">Iniciar</button> <!-- Novo botão para iniciar/pausar -->
+    <p id="message"></p>
+    <audio id="click-sound" src="click.mp3"></audio>
+    <audio id="match-sound" src="match.mp3"></audio>
+    <audio id="error-sound" src="error.mp3"></audio>
+    <audio id="win-sound" src="win.mp3"></audio>
+    <audio id="lose-sound" src="lose.mp3"></audio>
+    <audio id="start-sound" src="start.mp3"></audio> <!-- Som para o início do timer -->
+    <script>
+        const emojis = ['🐶', '🐱', '🦊', '🐼', '🐸', '🐷', '🐵', '🐯', '🐰', '🐻', '🐨', '🦁', '🐔', '🐙', '🦄', '🐧'];
+        let cards = [];
+        let flippedCards = [];
+        let matchedCards = [];
+        let score = 0;
+        let timeRemaining = 120; // Alterado para 120 segundos (2 minutos)
+        let timerInterval;
+        let isTimerRunning = false; // Estado para controlar o temporizador
+        let isGameStarted = false; // Estado para saber se o jogo foi iniciado
+
+        const clickSound = document.getElementById('click-sound');
+        const matchSound = document.getElementById('match-sound');
+        const errorSound = document.getElementById('error-sound');
+        const winSound = document.getElementById('win-sound');
+        const loseSound = document.getElementById('lose-sound');
+        const startSound = document.getElementById('start-sound'); // Som de iniciar
+
+        function startGame() {
+            const board = document.getElementById('game-board');
+            board.innerHTML = ''; // Limpa o tabuleiro antes de gerar as cartas
+            flippedCards = [];
+            matchedCards = [];
+            score = 0;
+            updateScore();
+            resetMessage();
+
+            timeRemaining = 120; // Garantir que o tempo começa com 120 segundos
+            updateTimer();
+            clearInterval(timerInterval); // Limpa o intervalo anterior
+            isTimerRunning = false; // Garante que o temporizador esteja parado ao reiniciar
+            isGameStarted = false; // Garante que o jogo não esteja iniciado
+
+            document.getElementById('startPauseButton').textContent = 'Iniciar'; // Botão mostra "Iniciar"
+
+            cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+
+            // Gera as cartas e as adiciona ao tabuleiro
+            cards.forEach((emoji) => {
+                const card = createCard(emoji);
+                board.appendChild(card);
+            });
+        }
+
+        function createCard(emoji) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.dataset.emoji = emoji;
+
+            // Desabilitar o clique nas cartas até que o jogo seja iniciado
+            card.style.pointerEvents = 'none'; // Inicialmente as cartas não podem ser clicadas
+
+            card.addEventListener('click', () => handleCardClick(card));
+            return card;
+        }
+
+        function handleCardClick(card) {
+            if (card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length === 2) {
+                return;
+            }
+
+            clickSound.play();
+            flipCard(card);
+
+            if (flippedCards.length === 2) {
+                incrementScore();
+                setTimeout(checkMatch, 800);
+            }
+        }
+
+        function flipCard(card) {
+            card.textContent = card.dataset.emoji;
+            card.classList.add('flipped');
+            flippedCards.push(card);
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+
+            if (card1.dataset.emoji === card2.dataset.emoji) {
+                markAsMatched(card1, card2);
+                matchSound.play();
+            } else {
+                markAsIncorrect(card1, card2);
+                errorSound.play();
+            }
+
+            flippedCards = [];
+            checkWinCondition();
+        }
+
+        function markAsMatched(card1, card2) {
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            matchedCards.push(card1, card2);
+        }
+
+        function markAsIncorrect(card1, card2) {
+            card1.classList.add('incorrect');
+            card2.classList.add('incorrect');
+
+            setTimeout(() => {
+                card1.classList.remove('flipped', 'incorrect');
+                card2.classList.remove('flipped', 'incorrect');
+                card1.textContent = '';
+                card2.textContent = '';
+            }, 500);
+        }
+
+        function checkWinCondition() {
+            const message = document.getElementById('message');
+
+            if (matchedCards.length === cards.length) {
+                message.textContent = 'Parabéns, você venceu!';
+                message.classList.add('win-animation');
+                winSound.play();
+                clearInterval(timerInterval);
+            }
+        }
+
+        function incrementScore() {
+            score++;
+            updateScore();
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+        }
+
+        function resetMessage() {
+            const message = document.getElementById('message');
+            message.textContent = '';
+            message.classList.remove('win-animation', 'lose-animation');
+        }
+
+        function toggleTimer() {
+            if (!isGameStarted) {
+                isGameStarted = true; // Marcar o jogo como iniciado
+                startTimer();
+                document.querySelectorAll('.card').forEach(card => card.style.pointerEvents = 'auto'); // Liberar clique nas cartas
+                document.getElementById('startPauseButton').textContent = 'Pausar'; // Alterar para "Pausar"
+            } else {
+                isTimerRunning = !isTimerRunning;
+                if (isTimerRunning) {
+                    startTimer();
+                } else {
+                    clearInterval(timerInterval); // Pausar o timer
+                }
+            }
+        }
+
+        function startTimer() {
+            startSound.play(); // Som ao iniciar o timer
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimer();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    endGame();
+                    revealCards();
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            document.getElementById('timer').textContent = `${timeRemaining}s`;
+        }
+
+        function endGame() {
+            const message = document.getElementById('message');
+            message.textContent = 'Você perdeu! Tente novamente.';
+            message.classList.add('lose-animation');
+            loseSound.play();
+        }
+
+        function revealCards() {
+            cards.forEach((emoji, index) => {
+                setTimeout(() => {
+                    const card = document.querySelectorAll('.card')[index];
+                    card.textContent = card.dataset.emoji;
+                    card.classList.add('flipped');
+                }, 300 * index);
+            });
+        }
+
+        startGame(); // Inicializa o jogo automaticamente
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
