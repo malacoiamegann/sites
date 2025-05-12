@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>🏀 Quiz de Basquete</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Bebas Neue', cursive;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Adiciona a imagem de fundo */
+    .bg-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://img.elo7.com.br/product/zoom/370A362/caneca-sacramento-kings-nba-mod2-caneca-de-porcelana.jpg');
+      background-size: cover;
+      background-position: center;
+      z-index: -1; /* Faz com que a imagem de fundo fique atrás do conteúdo */
+    }
+
+    .container {
+      background: rgba(0,0,0,0.7); /* Fundo escuro para destacar o conteúdo */
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #aaa;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    #options button {
+      background: #A1A1A4;
+      border: none;
+      padding: 12px;
+      margin: 8px 0;
+      width: 100%;
+      border-radius: 12px;
+      color: #000;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #options button:hover {
+      background: #CCCCCC;
+      transform: scale(1.02);
+    }
+
+    /* Cor para a resposta correta (roxa) */
+    .correct {
+      background-color: #3A0D8C !important;
+    }
+
+    /* Cor para a resposta errada */
+    .wrong { 
+      background-color: #F44336 !important; 
+    }
+
+    /* Animação para a resposta correta piscar */
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .blink {
+      animation: blink 1s infinite;
+    }
+
+    .score-board p {
+      margin: 5px 0;
+    }
+
+    #feedback {
+      font-size: 22px;
+      margin-top: 10px;
+    }
+
+    #loader {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      background: #1D1160;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      flex-direction: column;
+    }
+
+    .loader-text {
+      font-size: 30px;
+      color: white;
+      animation: pulse 1.5s infinite;
+      margin-top: 20px;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .loader-img {
+      animation: bounce 1.2s infinite;
+    }
+
+    button#restart {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: #fff;
+      color: #1D1160;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div class="bg-image"></div>
+
+<div id="loader">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhtVLULfdbUPqiXURzH7ZTKU0Drd9dzbAjIg&s" alt="Bola de Basquete" width="80" class="loader-img">
+  <div class="loader-text">🏀 Carregando Quiz...</div>
+</div>
+
+<div class="container" style="display: none">
+  <h1>🏀 Quiz de Basquete</h1>
+  <div id="quiz">
+    <p id="question">Carregando pergunta...</p>
+    <div id="options"></div>
+    <p id="feedback"></p>
+  </div>
+  <div class="score-board">
+    <p>Pontuação: <span id="score">0</span></p>
+    <p>Recorde: <span id="record">0</span></p>
+  </div>
+  <button id="restart" onclick="startGame()">🔁 Jogar Novamente</button>
+</div>
+
+<script>
+const questions = [
+  { q: "Quem é o maior pontuador da história da NBA? 🏀", a: ["LeBron James", "Michael Jordan", "Kobe Bryant", "Karl Malone"], c: 0 },
+  { q: "Quantos jogadores cada time tem em quadra?", a: ["6", "5", "7", "4"], c: 1 },
+  { q: "Qual time venceu mais títulos da NBA?", a: ["Celtics", "Lakers", "Bulls", "Spurs"], c: 0 },
+  { q: "Qual jogador é conhecido como 'The Answer'?", a: ["Allen Iverson", "Chris Paul", "James Harden", "Kyrie Irving"], c: 0 },
+  { q: "Em que cidade jogam os Golden State Warriors?", a: ["San Francisco", "Los Angeles", "Oakland", "Sacramento"], c: 0 },
+  { q: "Qual jogador tem mais MVPs da temporada regular?", a: ["Kareem Abdul-Jabbar", "LeBron James", "Michael Jordan", "Wilt Chamberlain"], c: 0 },
+  { q: "Qual a altura da cesta de basquete?", a: ["3,05m", "2,95m", "3,00m", "2,80m"], c: 0 },
+  { q: "O que significa NBA?", a: ["National Basketball Association", "New Basketball Association", "National Basket Alliance", "National Ball Association"], c: 0 },
+  { q: "Quem foi draftado em 13º em 1996?", a: ["Kobe Bryant", "Steve Nash", "Ray Allen", "Paul Pierce"], c: 0 },
+  { q: "Qual jogador tem o apelido 'Shaq'?", a: ["Shaquille O'Neal", "Michael Jordan", "LeBron James", "Allen Iverson"], c: 0 },
+  { q: "Qual jogador é conhecido como 'King'?", a: ["LeBron James", "Stephen Curry", "Kevin Durant", "Giannis"], c: 0 },
+  { q: "Quantos pontos vale uma cesta de fora do garrafão?", a: ["3", "2", "1", "4"], c: 0 },
+  { q: "Quem venceu o campeonato da NBA em 2020?", a: ["Lakers", "Heat", "Warriors", "Bucks"], c: 0 },
+  { q: "Qual time tem um trevo no logotipo?", a: ["Celtics", "Bulls", "Hornets", "Magic"], c: 0 },
+  { q: "Qual país sediou o basquete nas Olimpíadas de 2016?", a: ["Brasil", "China", "EUA", "Inglaterra"], c: 0 },
+  { q: "Qual jogador foi chamado de 'The Big Fundamental'?", a: ["Tim Duncan", "Shaquille O'Neal", "Kevin Garnett", "Kareem Abdul-Jabbar"], c: 0 },
+  { q: "Quem ganhou o prêmio de MVP da temporada 2021?", a: ["Nikola Jokić", "Giannis Antetokounmpo", "LeBron James", "Stephen Curry"], c: 0 },
+  { q: "Quem é o técnico mais vitorioso da NBA?", a: ["Phil Jackson", "Gregg Popovich", "Pat Riley", "Doc Rivers"], c: 0 },
+  { q: "Quem é o maior reboteiro da história da NBA?", a: ["Wilt Chamberlain", "Dennis Rodman", "Bill Russell", "Kareem Abdul-Jabbar"], c: 0 },
+  { q: "Qual jogador tem o apelido 'Black Mamba'?", a: ["Kobe Bryant", "Michael Jordan", "LeBron James", "Allen Iverson"], c: 0 },
+  { q: "Qual jogador foi o primeiro a fazer um triple-double na NBA?", a: ["Oscar Robertson", "Russell Westbrook", "Magic Johnson", "Wilt Chamberlain"], c: 0 }
+];
+
+let current = 0;
+let score = 0;
+let record = localStorage.getItem("record") || 0;
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    document.getElementById("loader").style.display = "none";
+    document.querySelector(".container").style.display = "block";
+    document.getElementById("record").textContent = record;
+    showQuestion();
+  }, 2000);
+});
+
+function showQuestion() {
+  const q = questions[current];
+  document.getElementById("question").textContent = q.q;
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  q.a.forEach((text, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = text;
+    btn.onclick = () => checkAnswer(i, btn);
+    optionsDiv.appendChild(btn);
+  });
+}
+
+function checkAnswer(selected, btn) {
+  const correctIndex = questions[current].c;
+  const feedback = document.getElementById("feedback");
+
+  if (selected === correctIndex) {
+    feedback.textContent = "✅ Acertou!";
+    btn.classList.add("correct");
+    score++;
+    document.getElementById("score").textContent = score;
+    current++;
+    setTimeout(() => {
+      feedback.textContent = "";
+      if (current < questions.length) {
+        showQuestion();
+      } else {
+        if (score > record) {
+          localStorage.setItem("record", score);
+          alert("🏅 Novo Recorde!");
+        }
+        alert("Parabéns! Você concluiu o quiz. Pontuação: " + score);
+        startGame();
+      }
+    }, 1500);
+  } else {
+    btn.classList.add("wrong");
+    const correctBtn = document.querySelectorAll('#options button')[correctIndex];
+    correctBtn.classList.add('blink'); // Faz a resposta correta piscar
+    feedback.textContent = "❌ Errou! Você deve recomeçar.";
+    setTimeout(() => {
+      startGame();
+    }, 2000);
+  }
+}
+
+function startGame() {
+  current = 0;
+  score = 0;
+  document.getElementById("score").textContent = 0;
+  document.getElementById("feedback").textContent = "";
+  shuffleQuestions();
+  showQuestion();
+}
+
+function shuffleQuestions() {
+  // Embaralha as perguntas aleatoriamente
+  questions.sort(() => Math.random() - 0.5);
+}
+</script>
+</body>
+</html>
