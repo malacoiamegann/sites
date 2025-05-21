@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loja Oficial do Flamengo 🔴⚫</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #111;
+      color: white;
+    }
+    header {
+      background-color: #c8102e;
+      padding: 20px 15px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(200,16,46,0.7);
+      user-select: none;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      letter-spacing: 3px;
+      text-shadow: 2px 2px 6px #000;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      padding: 25px 15px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .product {
+      background: linear-gradient(145deg, #222, #1a1a1a);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 4px 4px 12px #900, -4px -4px 12px #c00;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      user-select: none;
+      text-decoration: none;
+      color: white;
+    }
+    .product:hover {
+      transform: translateY(-6px);
+      box-shadow: 6px 6px 25px #ff0000, -6px -6px 25px #9f0000;
+      cursor: pointer;
+    }
+    .product img {
+      max-width: 180px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #c8102e;
+      margin-bottom: 12px;
+      object-fit: contain;
+    }
+    .product h3 {
+      margin: 0 0 6px;
+      font-size: 1.1rem;
+      color: #f6f6f6;
+      text-align: center;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 3px #600;
+    }
+    .product p {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ff4d4d;
+      text-shadow: 1px 1px 2px #330000;
+    }
+    .product .btn {
+      background-color: #c8102e;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      box-shadow: 0 3px 8px #a00;
+      transition: background-color 0.25s ease, box-shadow 0.25s ease;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      user-select: none;
+      display: inline-block;
+      width: 100%;
+    }
+    .product .btn:hover {
+      background-color: #ff1a3c;
+      box-shadow: 0 5px 15px #ff2943;
+      transform: scale(1.05);
+    }
+    footer {
+      background-color: #c8102e;
+      text-align: center;
+      padding: 18px;
+      margin-top: 30px;
+      box-shadow: inset 0 4px 10px #8b0000;
+      user-select: none;
+    }
+    footer p {
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 1.1px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🔥 Loja Oficial do Flamengo 🔴⚫</h1>
+</header>
+
+<section class="products">
+
+  <a class="product" href="https://loja.flamengo.com.br/manto-flamengo-jogo-2-adidas-2025/p" target="_blank" rel="noopener noreferrer">
+    <img src="https://flamengo.vteximg.com.br/arquivos/ids/174569-1000-1000/IV6042_FR_Torso_eCom-1-removebg-preview.png.png?v=638799117364630000" alt="Camisa Flamengo 2024" />
+    <h3>👕 Camisa Flamengo 2025</h3>
+    <p>R$ 399,90</p>
+    <span class="btn">Comprar</span>
+  </a>
+
+  <a class="product" href="https://www.futfanatics.com.br/bone-adidas-flamengo-2025-casual" target="_blank" rel="noopener noreferrer">
+    <img src="https://images.tcdn.com.br/img/img_prod/311840/bone_adidas_flamengo_2025_casual_144192_2_f73bb5eac78773b6a90ca7535e68ff1f.jpg" alt="Boné Flamengo" />
+    <h3>🧢 Boné Flamengo</h3>
+    <p>R$ 129,90</p>
+    <span class="btn">Comprar</span>
+  </a>
+
+  <a class="product" href="https://www.futfanatics.com.br/bermuda-adidas-flamengo-dna-2025-preta" target="_blank" rel="noopener noreferrer">
+    <img src="https://images.tcdn.com.br/img/img_prod/311840/bermuda_adidas_flamengo_dna_2025_preta_140912_3_a08190667a06d598d7e89250ca53509c.jpg" alt="Short Flamengo" />
+    <h3>🩳 Short Flamengo</h3>
+    <p>R$ 239,99</p>
+    <span class="btn">Comprar</span>
+  </a>
+
+  <a class="product" href="https://loja.flamengo.com.br/moletom-flamengo-treino-atleta-adidas-2025/p" target="_blank" rel="noopener noreferrer">
+    <img src="https://flamengo.vteximg.com.br/arquivos/ids/171703/JE6629-1-APPAREL-Photography-Front-Center-View-white.jpg?v=638718457234830000" alt="Moletom Flamengo" />
+    <h3>🧥 Moletom Flamengo</h3>
+    <p>R$ 299,99</p>
+    <span class="btn">Comprar</span>
+  </a>
+
+  <a class="product" href="https://loja.flamengo.com.br/meiao-flamengo-jogo-1-adidas-2025/p" target="_blank" rel="noopener noreferrer">
+    <img src="https://flamengo.vteximg.com.br/arquivos/ids/172377-473-473/IV6074_Sid_eCom-3-removebg-preview.png.png?v=638737664141430000" alt="Meia Flamengo" />
+    <h3>🧦 Meia Flamengo</h3>
+    <p>R$ 69,99</p>
+    <span class="btn">Comprar</span>
+  </a>
+
+  <a class="product" href="https://loja.flamengo.com.br/mochila-flamengo-adidas-2025/p" target="_blank" rel="noopener noreferrer">
+    <img src="https://flamengo.vteximg.com.br/arquivos/ids/172061-1000-1000/JI5171_1_HARDWARE_Photography_Front-Center-View_white.jpg?v=638730639109030000" alt="Bolsa Flamengo" />
+    <h3>🎒 Bolsa Flamengo</h3>
+    <p>R$ 199,99</p>
+    <span class="btn">Comprar</span>
+  </a>
+
+  <a class="product" href="https://loja.flamengo.com.br/regata-flamengo-jogo-1-adidas-2025/p" target="_blank" rel="noopener noreferrer">
+    <img src="https://flamengo.vteximg.com.br/arquivos/ids/172277-1000-1000/IV6041_FR_Torso_eCom-1-removebg-preview.png.png?v=638732796092370000" alt="Regata Flamengo" />
+    <h3>🩱 Regata Flamengo</h3>
+    <p>R$ 299,99</p>
+    <span class="btn">Comprar</span>
+  </a>
+
+  <a class="product" href="https://loja.flamengo.com.br/camisa-flamengo-comemorativa-81-adidas-2025-1/p" target="_blank" rel="noopener noreferrer">
+    <img src="https://flamengo.vteximg.com.br/arquivos/ids/173987-1000-1000/JF0433_1_APPAREL_Photography_Front-Center-View_white.jpg?v=638770710518130000" alt="Jaqueta Flamengo" />
+    <h3>🧥 camisa retro Flamengo</h3>
+    <p>R$ 399,99</p>
+    <span class="btn">Comprar</span>
+  </a>
+
+  <a class="product" href="https://www.carrefour.com.br/bola-de-futebol-no-5-lancamento-2025-flamengo-mp951655187/p" target="_blank" rel="noopener noreferrer">
+    <img src="https://carrefourbr.vtexassets.com/arquivos/ids/190780895/image-4.jpg?v=638810335095400000" alt="Mochila Flamengo" />
+    <h3> bola Flamengo</h3>
+    <p>R$ 119,88</p>
+    <span class="btn">Comprar</span>
+  </a>
+
+</section>
+
+<footer>
+  <p>© 2025 Loja Oficial do Flamengo - Todos os direitos reservados</p>
+</footer>
+
+</body>
+</html>
